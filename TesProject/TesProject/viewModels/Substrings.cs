@@ -16,7 +16,7 @@ namespace TesProject.viewModels
         bool _isDone = true;
         int _percentDone = 0;
         int _start = 0;
-        int _finish = 100000;
+        int _finish = 10000;
         int digitSumRequired = 10;
         bool _cancel = false;
         int _maxThreads = Environment.ProcessorCount;
@@ -39,7 +39,10 @@ namespace TesProject.viewModels
                     }
                 }
             }
-
+        public Substrings()
+            {
+            this.FindAllTypeNStrings( );
+            }
         public int MaxThreads
             {
             get { return _maxThreads; }
@@ -47,6 +50,9 @@ namespace TesProject.viewModels
                 {
                 if ( value != this._maxThreads )
                     {
+                    if ( value <= 0 )
+                        this.MaxThreads = 1;
+                    
                     this._maxThreads = value;
                     NotifyPropertyChanged( );
                     }
@@ -141,20 +147,22 @@ namespace TesProject.viewModels
         public async   void FindAllTypeNStrings()
             {
             this.TypeNString.Clear( );
+            this.SecondsRan = 0;
+
 
             DateTime startTime = DateTime.Now;
             Predicate<string> isTypeIwant = IsTypeN;
+            
 
             this.Cancel = false;
             ObservableCollection<Selected> local = new ObservableCollection<Selected>( );
-            int updateDisplay = 0;
+            
 
             var source = Enumerable.Range( this.Start , this.Finish );
-            int counter = 0;
-
-
+           
+            //add await to this predicate
            var tried = from k in source.AsParallel( ).WithDegreeOfParallelism( MaxThreads )
-                        where ( isTypeIwant( k.ToString( ) ) )
+                        where (  isTypeIwant( k.ToString( ) ) )
                         select new Selected
                             {
                             TheNumber = k.ToString( ) ,
@@ -162,12 +170,17 @@ namespace TesProject.viewModels
 
                             };
 
-            
+            DateTime a = DateTime.Now;
+
            foreach(var t in tried)
                 {
                 this.TypeNString.Add( t );
 
                 }
+
+            DateTime end = DateTime.Now;
+
+            TimeSpan all = end - a;
             //first code
            //foreach(var j in source)
            //     {
@@ -191,7 +204,7 @@ namespace TesProject.viewModels
 
             }
 
-        bool IsTypeN(string val)
+         bool   IsTypeN(string val)
             {
             char [ ] myChar = val.ToCharArray( );
 
@@ -228,7 +241,7 @@ namespace TesProject.viewModels
             return false;
 
 
-            return false;
+          
             }
 
         private void NotifyPropertyChanged ( [CallerMemberName] String propertyName = "" )
