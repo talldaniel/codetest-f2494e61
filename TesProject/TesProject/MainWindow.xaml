@@ -1,12 +1,38 @@
-﻿<Window x:Class="TesProject.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TesProject"
+        xmlns:viewModels="clr-namespace:TesProject.viewModels" x:Class="TesProject.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        
+        <Grid.DataContext>
+            <viewModels:Substrings/>
+        </Grid.DataContext>
+        <Button x:Name="button" Content="Start" HorizontalAlignment="Left" Height="36" Margin="44,241,0,0" VerticalAlignment="Top" Width="88" Click="button_Click"/>
+        <ListBox x:Name="MyListBox" HorizontalAlignment="Left" Height="155" Margin="245,10,0,0" VerticalAlignment="Top" Width="262" ItemsSource="{Binding TypeNString}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding TheNumber}"></TextBlock>
+                   
+                    
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+
+        </ListBox>
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Height="18" Margin="22,22,0,0" TextWrapping="Wrap" Text="Start" VerticalAlignment="Top" Width="64"/>
+        <TextBlock x:Name="textBlock1" HorizontalAlignment="Left" Height="25" Margin="24,50,0,0" TextWrapping="Wrap" Text="Finish" VerticalAlignment="Top" Width="49"/>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="18" Margin="73,22,0,0" TextWrapping="Wrap" Text="{Binding Start}" VerticalAlignment="Top" Width="81"/>
+        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="25" Margin="73,50,0,0" TextWrapping="Wrap" Text="{Binding Finish}" VerticalAlignment="Top" Width="81"/>
+        <TextBlock x:Name="textBlock2" HorizontalAlignment="Left" Height="21" Margin="22,99,0,0" TextWrapping="Wrap" Text="Total Found" VerticalAlignment="Top" Width="76"/>
+        <TextBox x:Name="textBox2" HorizontalAlignment="Left" Height="21" Margin="103,99,0,0" TextWrapping="Wrap" Text="{Binding TypeNString.Count, Mode=OneWay}" VerticalAlignment="Top" Width="51"/>
+        <TextBlock x:Name="textBlock3" HorizontalAlignment="Left" Margin="22,133,0,0" TextWrapping="Wrap" Text="Elapsed Time in seconds" VerticalAlignment="Top" Width="76" RenderTransformOrigin="0.445,0.5"/>
+        <TextBlock x:Name="textBlock4" HorizontalAlignment="Left" Margin="105,133,0,0" TextWrapping="Wrap" Text="{Binding SecondsRan}" VerticalAlignment="Top"/>
+        <TextBlock x:Name="textBlock5" HorizontalAlignment="Left" Height="44" Margin="10,182,0,0" TextWrapping="Wrap" Text="Number of Proexxeors to use" VerticalAlignment="Top" Width="101"/>
+        <TextBox x:Name="textBox3" HorizontalAlignment="Left" Height="27" Margin="127,183,0,0" TextWrapping="Wrap" Text="{Binding MaxThreads}" VerticalAlignment="Top" Width="35"/>
+
+
     </Grid>
 </Window>
